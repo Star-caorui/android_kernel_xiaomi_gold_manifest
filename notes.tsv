@@ -1,0 +1,3 @@
+# module	note (shown in results.md)
+mediatek-drm.ko	display: stock's also builds MIUI's mi_dsi_panel.c
+wlan_drv_gen4m_6833.ko	Wi-Fi: stock's also builds the MDDP offload (mgmt/mddp.c)
