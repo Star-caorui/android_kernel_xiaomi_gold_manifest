@@ -22,10 +22,13 @@ checks it against `gki.sha256` and every vendor module against its symbols, and 
 ## In a LineageOS tree
 
 LineageOS's `build_kernel` syncs only the manifests LineageOS hosts, so this one is synced by hand, once, into
-the directory it builds in:
+the directory it builds in, with a `.repo` of its own as `build_kernel` makes it (without one, `repo init` finds
+the Android tree's and initialises that):
 
 ```sh
-mkdir -p out-kernel/xiaomi_gold && cd out-kernel/xiaomi_gold && touch .out-dir
+mkdir -p out-kernel/xiaomi_gold/.repo && touch out-kernel/xiaomi_gold/.out-dir
+cp -R .repo/repo out-kernel/xiaomi_gold/.repo/repo
+cd out-kernel/xiaomi_gold
 repo init -u https://github.com/Star-caorui/android_kernel_xiaomi_gold_manifest -b lineage-24.0 --depth=1 --no-use-superproject
 repo sync -c --no-tags
 cd ../..
