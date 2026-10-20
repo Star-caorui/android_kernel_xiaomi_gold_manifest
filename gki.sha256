@@ -1,0 +1,8 @@
+# Google's GKI builds build-kernel.sh fetches, and the SHA-256 of what fetch-gki.sh downloads of each:
+# <build id> <SHA-256> <file>
+15511674 0281e33d7e25c54aa65a6460a8f3b86f7c414e520b88db3919ce7efaa12754f9 Image.gz
+15511674 116e4779d4038553f53f47f939c182c684009e0ae47bd5ccc8601c399ec1db90 kernel_aarch64_Module.symvers
+15511674 d10dbba3f50100b3aadbfe8df37b98ae4fcbf38a3d16c6baff61db16c4cccf63 system_dlkm_staging_archive.tar.gz
+16498190 28ee8e78d2f0fe85fab75e3454de38acb282ceaa1369b53f026b5685cf39d146 Image.gz
+16498190 ee60951e45c8c3989673b4f8aad05bad2e2f75a7b4b0132574ad89ec492acef4 kernel_aarch64_Module.symvers
+16498190 cdb7ecf5a402b6ec2b4e6a59f3f262a9cb398424ff5addb7f1f24a0401a79a66 system_dlkm_staging_archive.tar.gz
