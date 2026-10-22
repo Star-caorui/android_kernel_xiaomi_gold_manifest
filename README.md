@@ -113,7 +113,7 @@ symbol table, `.modinfo`, a CRC), **Code identical** when every function matches
 
 | What | Why |
 | --- | --- |
-| `.note.gnu.build-id` (20 bytes, every module) | the linker hashes the whole module before its debugging information is stripped, and that information names the directories of the machine that built it; nothing in stock's modules tells what they were |
+| `.note.gnu.build-id` (20 bytes, every module) | the linker hashes the whole module before its debugging information is stripped. Stock's were built with Kleaf (`kernel_device_modules-6.6/kernel/kleaf/_setup_env.sh` lists `mgk_64_k66` as a Kleaf project), which maps the workspace out of the paths in that information, so the build machine's directory (`/home/work/mnt/miui_codes1/build_home_rom`, named in stock's preloader) does not reach the hash; what does (the layout and version of that Kleaf build) cannot be read from stripped modules. `aee_rs.ko` rebuilt under that directory, with Kleaf's path mappings (old and new), with DWARF 4 and 5 and each compression, gave other IDs |
 | `.BTF` of the kernel's own modules (`cfg80211.ko`, …) | written against the BTF of the kernel they were built with, Xiaomi's own tree `4d05d8779bfd` (not published); it is not the GKI kernel on the phone (checked against its `/sys/kernel/btf/vmlinux`) |
 | Two line numbers from `include/ufs/ufshcd.h` in `ufs-mediatek-mod.ko` and `rpmb-mtk.ko` (`__bug_table`) | the same tree's `ufshcd.h` has three more lines before `ufshcd_set_variant()` than the GKI kernel's (stock's `BUG_ON()`s are at 1349 and 1359, the GKI kernel's at 1346 and 1356); the kernel is not changed for it |
 
