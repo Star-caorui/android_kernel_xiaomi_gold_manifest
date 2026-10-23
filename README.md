@@ -44,8 +44,9 @@ in `out-kernel/xiaomi_gold`, then `build_kernel`.
 
 The vendor modules this builds, against stock OS3.0.5.0.VNQMIXM's, with the comparison of the
 [`OS3.0.5.0.VNQMIXM`](https://github.com/Star-caorui/android_kernel_xiaomi_gold_manifest/tree/OS3.0.5.0.VNQMIXM)
-branch: 344 of 353 have every function and every data object of stock's; they differ in the version Kleaf stamps
-(`vermagic`, `scmversion`). The 9 others are LineageOS's fixes (`ds28e30_verify`, `stick_verify`,
-`hq_charger_sysfs`, `leds-mtk`, `mediatek-drm`, `mtk_battery_manager`) and the differences the
-`OS3.0.5.0.VNQMIXM` branch names (`mtk_charger_framework`, `mtk_pep50`, `wlan_drv_gen4m_6833`). The overlay is
-stock's table byte for byte; the blob is stock's but for `initcall_debug=1`, which LineageOS's drops.
+branch: 343 of 353 have every function and every data object of stock's; they differ in the version Kleaf stamps
+(`vermagic`, `scmversion`). The 10 others are LineageOS's changes (`ds28e30_verify`, `stick_verify`,
+`hq_charger_sysfs`, `leds-mtk`, `mediatek-drm`, `mtk_battery_manager`, `regulator-vibrator`) and the differences
+the `OS3.0.5.0.VNQMIXM` branch names (`mtk_charger_framework`, `mtk_pep50`, `wlan_drv_gen4m_6833`). The overlay is
+stock's table byte for byte; the blob is stock's but for `initcall_debug=1`, which LineageOS's drops, and
+the vibrator's `vmax-min-volt`.
