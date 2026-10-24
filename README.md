@@ -49,4 +49,4 @@ branch: 343 of 353 have every function and every data object of stock's; they di
 `hq_charger_sysfs`, `leds-mtk`, `mediatek-drm`, `mtk_battery_manager`, `regulator-vibrator`) and the differences
 the `OS3.0.5.0.VNQMIXM` branch names (`mtk_charger_framework`, `mtk_pep50`, `wlan_drv_gen4m_6833`). The overlay is
 stock's table byte for byte; the blob is stock's but for `initcall_debug=1`, which LineageOS's drops, and
-the vibrator's `vmax-min-volt`.
+the vibrator's `vmax-min-volt` and `vmax-top-min-ms`.
