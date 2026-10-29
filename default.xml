@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  gold's vendor kernel modules as stock OS3.0.5.0.VNQMIXM built them: each source where stock's build had it, the
+  kernel and the compiler stock's modules name, and the tools that take stock's modules out of Xiaomi's package to
+  compare with. See README.md.
+-->
+<manifest>
+  <remote name="aosp" fetch="https://android.googlesource.com/" />
+  <remote name="github" fetch="https://github.com/" />
+
+  <!-- the kernel: the GKI kernel on the phone -->
+  <project path="kernel-6.6" name="kernel/common" remote="aosp" clone-depth="1"
+           revision="e56cf6b09cca2151bcee244b3d334fb68685ff57" upstream="refs/tags/android15-6.6-2026-01_r34" />
+  <!-- the kernel Xiaomi's Millet modules are built against: stock's were built against another 6.6.30 tree -->
+  <project path="kernel-6.6.30" name="kernel/common" remote="aosp" clone-depth="1"
+           revision="ef43fde2fd933ef8332fbd9edabd5f4cfe232df6" upstream="refs/tags/android15-6.6-2024-07_r1" />
+
+  <!-- the sources, at the paths stock's modules name -->
+  <project path="kernel_device_modules-6.6" name="Star-caorui/android_kernel_xiaomi_gold-modules" remote="github"
+           clone-depth="1" revision="b63847198ab67ed0c95435d945d364e1eec70f6b" upstream="OS3.0.5.0.VNQMIXM" />
+  <project path="vendor/mediatek/kernel_modules" name="Star-caorui/android_kernel_xiaomi_gold-mediatek_modules"
+           remote="github" clone-depth="1" revision="5526b41a2d9786001fb71a068a507b8f7ffa1e09"
+           upstream="OS3.0.5.0.VNQMIXM" />
+  <project path="vendor/huaqin/kernel_modules" name="Star-caorui/android_kernel_xiaomi_gold-huaqin_modules"
+           remote="github" clone-depth="1" revision="418a7fc058972368dfc1a50fb89ca2d3135f3dd9"
+           upstream="OS3.0.5.0.VNQMIXM" />
+  <project path="vendor/xiaomi/kernel_modules" name="Star-caorui/android_kernel_xiaomi_gold-xiaomi_modules"
+           remote="github" clone-depth="1" revision="b6acf214de034e18d8b78eb13eaec7360a8e4370"
+           upstream="OS3.0.5.0.VNQMIXM" />
+
+  <!-- the build and the comparison (this repository) -->
+  <project path="verify" name="Star-caorui/android_kernel_xiaomi_gold_manifest" remote="github"
+           revision="OS3.0.5.0.VNQMIXM" />
+
+  <!-- the tools stock.sh takes stock's files out of Xiaomi's package with -->
+  <project path="prebuilts/extract-tools" name="LineageOS/android_prebuilts_extract-tools" remote="github"
+           clone-depth="1" revision="aaeb969a477321411279c03799f45ae9f94f770b" upstream="lineage-24.0" />
+  <project path="system/tools/mkbootimg" name="platform/system/tools/mkbootimg" remote="aosp" clone-depth="1"
+           revision="954bc3ead5e679005fddf3484d247f2557b3c2c9" upstream="refs/tags/android-16.0.0_r4" />
+  <project path="external/avb" name="platform/external/avb" remote="aosp" clone-depth="1"
+           revision="c92ce4cb9a1b6d20a1bc11b7e5864af9f78615bb" upstream="refs/tags/android-16.0.0_r4" />
+
+  <!-- the compiler and tools of Android's kernel builds of that time -->
+  <project path="prebuilts/clang/host/linux-x86" name="platform/prebuilts/clang/host/linux-x86" remote="aosp"
+           clone-depth="1" revision="62dc563017359bca29c4a08f5f27d8ecae763462" upstream="main-kernel-build-2024" />
+  <project path="prebuilts/kernel-build-tools" name="kernel/prebuilts/build-tools" remote="aosp" clone-depth="1"
+           revision="b46264b70e3cdf70d08c9ae2df6ea3002b242ebc" upstream="main-kernel-build-2024" />
+</manifest>
