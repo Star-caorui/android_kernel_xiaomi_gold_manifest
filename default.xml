@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<manifest>
+  <remote name="aosp" fetch="https://android.googlesource.com/" />
+  <remote name="github"
+     fetch="https://github.com/"
+     review="review.lineageos.org" />
+
+  <default revision="main-kernel-build-2024" remote="aosp" sync-j="4" />
+
+  <project path="build/kernel" name="kernel/build" groups="kernel-platform,kernel-platform-66">
+    <linkfile src="kleaf/bazel.sh" dest="tools/bazel" />
+    <linkfile src="kleaf/bzlmod/bazel.MODULE.bazel" dest="MODULE.bazel" />
+    <linkfile src="kleaf/bzlmod/bazel.WORKSPACE.bzlmod" dest="WORKSPACE.bzlmod" />
+  </project>
+  <project path="build/bazel_mgk_rules" name="LineageOS/android_kernel_build_bazel_mgk_rules" remote="github" revision="refs/heads/lineage-24.0" sync-c="true" >
+    <linkfile src="kleaf/bazel.WORKSPACE" dest="WORKSPACE" />
+  </project>
+  <project path="build/bazel_common_rules" name="platform/build/bazel_common_rules" groups="ddk" />
+  <!-- the GKI kernel stock ships: Google's build 15511674 -->
+  <project path="kernel-6.6" name="kernel/common" revision="refs/tags/android15-6.6-2026-01_r34" clone-depth="1" />
+  <!-- Uncomment for local testing only -->
+  <!-- project path="kernel/tests" name="kernel/tests" revision="main-kernel" clone-depth="1" / -->
+  <project path="kernel/configs" name="kernel/configs" revision="main"/>
+  <project path="common-modules/wonder" name="kernel/common-modules/wonder" revision="android15-6.6" />
+  <project path="common-modules/trusty" name="kernel/common-modules/trusty" />
+  <project path="common-modules/virtio-media" name="platform/external/virtio-media" />
+  <project path="common-modules/virtual-device" name="kernel/common-modules/virtual-device" revision="android15-6.6" />
+  <project path="prebuilts/clang/host/linux-x86" name="platform/prebuilts/clang/host/linux-x86" clone-depth="1" groups="ddk" />
+  <project path="prebuilts/gcc/linux-x86/host/x86_64-linux-glibc2.17-4.8" name="platform/prebuilts/gcc/linux-x86/host/x86_64-linux-glibc2.17-4.8" clone-depth="1" groups="ddk" />
+  <project path="prebuilts/build-tools" name="platform/prebuilts/build-tools" clone-depth="1" groups="ddk" />
+  <project path="prebuilts/clang-tools" name="platform/prebuilts/clang-tools" clone-depth="1" />
+  <project path="prebuilts/kernel-build-tools" name="kernel/prebuilts/build-tools" clone-depth="1" groups="ddk" />
+  <project path="prebuilts/rust" name="platform/prebuilts/rust" clone-depth="1" />
+  <project path="tools/mkbootimg" name="platform/system/tools/mkbootimg" />
+
+  <project path="prebuilts/jdk/jdk11" name="platform/prebuilts/jdk/jdk11" clone-depth="1" />
+  <project path="prebuilts/ndk-r26" name="toolchain/prebuilts/ndk/r26" clone-depth="1" groups="ddk" />
+
+  <project path="external/libcap-ng" name="platform/external/libcap-ng"/>
+  <project path="external/libcap" name="platform/external/libcap"/>
+
+  <!-- deps for for bzlmod -->
+  <project path="external/bazel-skylib" name="platform/external/bazel-skylib" groups="ddk-external" />
+  <project path="external/bazelbuild-bazel-central-registry" name="platform/external/bazelbuild-bazel-central-registry" groups="ddk-external" />
+  <project path="external/bazelbuild-platforms" name="platform/external/bazelbuild-platforms" groups="ddk-external" />
+  <project path="external/bazelbuild-apple_support" name="platform/external/bazelbuild-apple_support" groups="ddk-external" />
+  <project path="external/bazelbuild-rules_cc" name="platform/external/bazelbuild-rules_cc" groups="ddk-external" />
+  <project path="external/bazelbuild-rules_java" name="platform/external/bazelbuild-rules_java" groups="ddk-external"/>
+  <project path="external/bazelbuild-rules_license" name="platform/external/bazelbuild-rules_license" groups="ddk-external" />
+  <project path="external/bazelbuild-rules_pkg" name="platform/external/bazelbuild-rules_pkg" groups="ddk-external" />
+  <project path="external/bazelbuild-rules_python" name="platform/external/bazelbuild-rules_python" groups="ddk-external" />
+  <project path="external/python/absl-py" name="platform/external/python/absl-py" groups="ddk-external" />
+
+  <!-- dependencies used to build toolchain from sources -->
+  <project path="external/lz4" name="platform/external/lz4" groups="ddk"/>
+  <project path="external/pigz" name="platform/external/pigz" groups="ddk"/>
+  <project path="external/toybox" name="platform/external/toybox" groups="ddk"/>
+  <project path="external/zlib" name="platform/external/zlib" groups="ddk"/>
+  <project path="external/zopfli" name="platform/external/zopfli" groups="ddk"/>
+
+  <!-- gold -->
+  <project path="manifest" name="Star-caorui/android_kernel_xiaomi_gold_manifest" remote="github" revision="refs/heads/lineage-24.0" >
+    <linkfile src="build_mgk_64_k66.sh" dest="build_mgk_64_k66.sh" />
+  </project>
+  <project path="kernel_device_modules-6.6" name="Star-caorui/android_kernel_xiaomi_gold-modules" remote="github" revision="refs/heads/lineage-24.0" sync-c="true" >
+    <linkfile src="build.config.gold" dest="build.config" />
+    <linkfile src="build_mgk_64_k66.sh" dest="build_kernel_device_modules.sh" />
+  </project>
+  <project path="vendor/mediatek/kernel_modules" name="Star-caorui/android_kernel_xiaomi_gold-mediatek_modules" remote="github" revision="refs/heads/lineage-24.0" sync-c="true" />
+  <project path="vendor/huaqin/kernel_modules" name="Star-caorui/android_kernel_xiaomi_gold-huaqin_modules" remote="github" revision="refs/heads/lineage-24.0" sync-c="true" />
+</manifest>
