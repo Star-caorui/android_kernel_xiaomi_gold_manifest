@@ -1,0 +1,84 @@
+diff --git a/mgk.bzl b/mgk.bzl
+index 9aed3b4..c19f58b 100644
+--- a/mgk.bzl
++++ b/mgk.bzl
+@@ -256,7 +256,7 @@ def define_mgk(
+                     "//build/bazel_mgk_rules:kernel_version_6.6"     : "//{}-{}:kernel_aarch64_debug".format(ack_dir, "6.6"),
+                     "//build/bazel_mgk_rules:kernel_version_mainline": "//{}-{}:kernel_aarch64_debug".format(ack_dir, "mainline"),
+                     "//conditions:default"                           : None,
+-                }) if build == "ack" else ":{}_kernel_aarch64.{}".format(name, build),
++                }) if build == "ack" else _gold_base(name, build),
+                 module_signing_key = "certs/mtk_signing_key.pem",
+                 modules_prepare_force_generate_headers = True,
+                 dtstree = select({
+@@ -355,7 +355,7 @@ def define_mgk(
+         merged_uapi_headers(
+             name = "{}_merged_uapi_headers.{}".format(name, build),
+             uapi_headers = [
+-                ":{}_kernel_aarch64.{}_uapi_headers".format(name, build),
++                _gold_base_uapi(name, build),
+             ] + select({
+                 "//build/bazel_mgk_rules:kernel_version_6.1"     : ["//kernel_device_modules-{}:mtk_uapi_tarball".format("6.1")],
+                 "//build/bazel_mgk_rules:kernel_version_6.6"     : ["//kernel_device_modules-{}:mtk_uapi_tarball".format("6.6")],
+@@ -383,14 +383,14 @@ def define_mgk(
+             copy_to_dist_dir(
+                 name = "{}_internal_dist.{}".format(name, build),
+                 data = select({
+-                    "//build/bazel_mgk_rules:kernel_version_6.1"     : [":{}_kernel_aarch64.{}".format(name, build)],
+-                    "//build/bazel_mgk_rules:kernel_version_6.6"     : [":{}_kernel_aarch64.{}".format(name, build)],
+-                    "//build/bazel_mgk_rules:kernel_version_mainline": [":{}_kernel_aarch64.{}".format(name, build)],
++                    "//build/bazel_mgk_rules:kernel_version_6.1"     : _gold_dist_base(name, build),
++                    "//build/bazel_mgk_rules:kernel_version_6.6"     : _gold_dist_base(name, build),
++                    "//build/bazel_mgk_rules:kernel_version_mainline": _gold_dist_base(name, build),
+                     "//conditions:default"                           : ["//kernel:kernel_aarch64.{}".format(build)],
+                 }) + (select({
+-                    "//build/bazel_mgk_rules:kernel_version_6.1"     : [":{}_kernel_aarch64.{}/{}".format(name, build, m) for m in common_modules],
+-                    "//build/bazel_mgk_rules:kernel_version_6.6"     : [":{}_kernel_aarch64.{}/{}".format(name, build, m) for m in common_modules],
+-                    "//build/bazel_mgk_rules:kernel_version_mainline": [":{}_kernel_aarch64.{}/{}".format(name, build, m) for m in common_modules],
++                    "//build/bazel_mgk_rules:kernel_version_6.1"     : _gold_base_modules(name, build, common_modules),
++                    "//build/bazel_mgk_rules:kernel_version_6.6"     : _gold_base_modules(name, build, common_modules),
++                    "//build/bazel_mgk_rules:kernel_version_mainline": _gold_base_modules(name, build, common_modules),
+                     "//conditions:default"                           : ["//kernel:kernel_aarch64.{}/{}".format(build, m) for m in common_modules],
+                 }) if ack_build == "ack" else [])
+                 + [
+@@ -455,14 +455,14 @@ def define_mgk(
+             copy_to_dist_dir(
+                 name = "{}_customer_dist.{}".format(name, build),
+                 data = select({
+-                    "//build/bazel_mgk_rules:kernel_version_6.1"     : [":{}_kernel_aarch64.{}".format(name, build)],
+-                    "//build/bazel_mgk_rules:kernel_version_6.6"     : [":{}_kernel_aarch64.{}".format(name, build)],
+-                    "//build/bazel_mgk_rules:kernel_version_mainline": [":{}_kernel_aarch64.{}".format(name, build)],
++                    "//build/bazel_mgk_rules:kernel_version_6.1"     : _gold_dist_base(name, build),
++                    "//build/bazel_mgk_rules:kernel_version_6.6"     : _gold_dist_base(name, build),
++                    "//build/bazel_mgk_rules:kernel_version_mainline": _gold_dist_base(name, build),
+                     "//conditions:default"                           : ["//kernel:kernel_aarch64.{}".format(build)],
+                 }) + (select({
+-                     "//build/bazel_mgk_rules:kernel_version_6.1"     : [":{}_kernel_aarch64.{}/{}".format(name, build, m) for m in common_modules],
+-                     "//build/bazel_mgk_rules:kernel_version_6.6"     : [":{}_kernel_aarch64.{}/{}".format(name, build, m) for m in common_modules],
+-                     "//build/bazel_mgk_rules:kernel_version_mainline": [":{}_kernel_aarch64.{}/{}".format(name, build, m) for m in common_modules],
++                     "//build/bazel_mgk_rules:kernel_version_6.1"     : _gold_base_modules(name, build, common_modules),
++                     "//build/bazel_mgk_rules:kernel_version_6.6"     : _gold_base_modules(name, build, common_modules),
++                     "//build/bazel_mgk_rules:kernel_version_mainline": _gold_base_modules(name, build, common_modules),
+                      "//conditions:default"                           : ["//kernel:kernel_aarch64.{}/{}".format(build, m) for m in common_modules],
+                 }) if ack_build == "ack" else [])
+                 + [
+@@ -580,3 +580,19 @@ mgk_build_config = rule(
+         ),
+     },
+ )
++
++def _gold_base(name, build):
++    return "@gki_prebuilts//kernel_aarch64" if build == "user" else ":{}_kernel_aarch64.{}".format(name, build)
++
++def _gold_base_uapi(name, build):
++    return "@gki_prebuilts//kernel-uapi-headers.tar.gz" if build == "user" else ":{}_kernel_aarch64.{}_uapi_headers".format(name, build)
++
++# the base kernel in the dist: not the prebuilt (the package takes Image from GKI's own download, and Kleaf would
++# copy the prebuilt's files outside the dist dir)
++def _gold_dist_base(name, build):
++    return [] if build == "user" else [":{}_kernel_aarch64.{}".format(name, build)]
++
++# the GKI modules for the dist: none from the prebuilt (its list need not match the source tree's; the
++# package takes GKI's system_dlkm modules as they are)
++def _gold_base_modules(name, build, modules):
++    return [] if build == "user" else [":{}_kernel_aarch64.{}/{}".format(name, build, m) for m in modules]

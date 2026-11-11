@@ -1,0 +1,27 @@
+diff --git a/kernel_device_modules-6.6/build.sh b/kernel_device_modules-6.6/build.sh
+index 6ea156e5..0e3f8378 100755
+--- a/kernel_device_modules-6.6/build.sh
++++ b/kernel_device_modules-6.6/build.sh
+@@ -24,7 +24,6 @@ KLEAF_DIST_TARGET=//${DEVICE_MODULES_DIR}:${KLEAF_SUPPORTED_PROJECTS}_${build_sc
+ KLEAF_OUT=("--output_user_root=${OUT_DIR} --output_base=${OUT_DIR}/bazel/output_user_root/output_base")
+ KLEAF_ARGS=("${DEBUG_ARGS} ${SANDBOX_ARGS} \
+ 	--experimental_writable_outputs \
+-	--noenable_bzlmod \
+ 	--config=stamp \
+ 	--//build/bazel_mgk_rules:kernel_version=${KERNEL_VERSION_NUM}")
+ 
+diff --git a/kernel_device_modules-6.6/build_mgk_64_k66.sh b/kernel_device_modules-6.6/build_mgk_64_k66.sh
+index c344d6da..dac276da 100755
+--- a/kernel_device_modules-6.6/build_mgk_64_k66.sh
++++ b/kernel_device_modules-6.6/build_mgk_64_k66.sh
+@@ -36,8 +36,8 @@ mkdir -p "${FINAL_DIST}"
+ 
+ cp -a "${SRC}/${TARGET_DEVICE}_customer_modules_install.user/"*.ko "${FINAL_DIST}/"
+ 
+-find "${SRC}/${TARGET_DEVICE}_kernel_aarch64.user/" -name '*.ko' -exec cp -t "${FINAL_DIST}/" {} +
+-cp -a "${SRC}/${TARGET_DEVICE}_kernel_aarch64.user/"Image.* "${FINAL_DIST}/"
++[ ! -d "${SRC}/${TARGET_DEVICE}_kernel_aarch64.user" ] || find "${SRC}/${TARGET_DEVICE}_kernel_aarch64.user/" -name '*.ko' -exec cp -t "${FINAL_DIST}/" {} +
++[ ! -d "${SRC}/${TARGET_DEVICE}_kernel_aarch64.user" ] || cp -a "${SRC}/${TARGET_DEVICE}_kernel_aarch64.user/"Image.* "${FINAL_DIST}/"
+ 
+ dtbo_img="${SRC}/${TARGET_DEVICE}_kernel_images.user_dtbo/dtbo.img"
+ if [ -f "${dtbo_img}" ]; then

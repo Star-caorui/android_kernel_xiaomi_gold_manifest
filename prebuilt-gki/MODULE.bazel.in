@@ -1,0 +1,32 @@
+
+# gold: what build_mgk_64_k66.sh adds to Kleaf's MODULE.bazel (build/kernel's kleaf/bzlmod/bazel.MODULE.bazel) to
+# build with Bzlmod on one of Google's GKI builds.
+
+# MediaTek's repositories, which its bazel.WORKSPACE declares
+key_value_repo = use_repo_rule("//build/bazel_mgk_rules:kleaf/key_value_repo.bzl", "key_value_repo")
+
+key_value_repo(name = "mgk_info")
+
+new_kleaf_local_repository(
+    name = "mgk_internal",
+    build_file = "build/bazel_mgk_rules/kleaf/BUILD.internal",
+    path = "vendor/mediatek",
+)
+
+new_kleaf_local_repository(
+    name = "mgk_ko",
+    build_file = "build/bazel_mgk_rules/kleaf/BUILD.ko",
+    path = "vendor/mediatek/kernel_modules",
+)
+
+# the common kernel is at kernel-6.6, not common
+kernel_toolchain_ext.declare_toolchain_constants(toolchain_constants = "//kernel-6.6:build.config.constants")
+
+# Google's GKI build, as fetch-gki.sh puts it, in place of the base kernel mgk.bzl compiles
+kernel_prebuilt_ext = use_extension("//build/kernel/kleaf:kernel_prebuilt_ext.bzl", "kernel_prebuilt_ext")
+kernel_prebuilt_ext.declare_kernel_prebuilts(
+    name = "gki_prebuilts",
+    local_artifact_path = "out/gki/@GKI_BUILD@/kleaf",
+    target = "kernel_aarch64",
+)
+use_repo(kernel_prebuilt_ext, "gki_prebuilts")
