@@ -46,8 +46,8 @@ export SKIP_KERNEL_SYNC=1
 source build/envsetup.sh && breakfast gold
 ```
 
-`breakfast` runs `build_kernel`, which puts the dist into `device/xiaomi/gold-kernels`. The `.repo` of its own
-keeps `repo init` from taking the Android tree's.
+`breakfast` runs `build_kernel`, which puts the dist into the device tree's `TARGET_KERNEL_DIR`,
+`device/xiaomi/gold-kernel`. The `.repo` of its own keeps `repo init` from taking the Android tree's.
 
 ## The GKI kernel from source
 
